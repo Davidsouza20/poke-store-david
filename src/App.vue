@@ -1,32 +1,62 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+    <v-app id="inspire">
+    <v-app-bar
+      app
+      color="#222222"
+      dark
+    >
+      <v-toolbar-title>David Souza</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+      <v-container
+        class="fill-height page"
+        fluid
+      >
+      <Catalog @buy="addPokemonToCart" />
+      <Cart :pokemons="pokemon" />
+
+      </v-container>
+    </v-main>
+    <v-footer
+      color="#222222"
+      app
+    >
+      <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
+import Catalog from './components/Catalog.vue';
+import Cart from './components/Cart.vue';
+import { Pokemon } from './interfaces/Pokemon';
 
-#nav {
-  padding: 30px;
-}
+export default Vue.extend({
+  name: 'App',
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  components: {
+    Catalog,
+    Cart,
+  },
+  data: () => ({
+    pokemon: [] as Pokemon[],
+  }),
+  methods: {
+    addPokemonToCart(pokemon: Pokemon) {
+      console.log(pokemon);
+      this.pokemon.push(pokemon);
+    },
+  },
+});
+</script>
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+<style scoped>
+  .page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
 </style>
